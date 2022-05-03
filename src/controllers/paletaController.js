@@ -28,7 +28,7 @@ const findByIdPaletaController = async (req, res) => {
   res.send(escolhaPaleta);
 };
 
-const createPaletaController = (req, res) => {
+const createPaletaController = async (req, res) => {
   const paleta = req.body;
 
   if(!paleta 
@@ -39,16 +39,16 @@ const createPaletaController = (req, res) => {
     ){
     return res.status(400).send({message: "Envie todos os campos da paleta!"})
   }
-  const newPaleta = paletaService.createPaletaService(paleta);
+  const newPaleta = await paletaService.createPaletaService(paleta);
   res.status(201).send(newPaleta);
 };
 
-const updatePaletaController = (req, res) => {
-  const parametroId = Number(req.params.id);
+const updatePaletaController = async (req, res) => {
+  const parametroId = req.params.id;
 
-  if (!parametroId) {
-    return res.status(400).send({ message: 'Id inválido!'});  
-  };
+  if(!mongoose.Types.ObjectId.isValid(parametroId)){
+    return res.status(400).send({ message: 'Id inválido!'});
+  }
 
   const paletaEdit = req.body;
 
@@ -60,19 +60,19 @@ const updatePaletaController = (req, res) => {
     ){
     return res.status(400).send({message: "Envie todos os campos da paleta!"})
   }
-  const updatedPaleta = paletaService.updatePaletaService(
+  const updatedPaleta = await paletaService.updatePaletaService(
     parametroId,
     paletaEdit,
   );
   res.send(updatedPaleta);
 };
 
-const deletePaletaController = (req, res) => {
-  const parametroId = Number(req.params.id);
-  if (!parametroId) {
-    return res.status(400).send({ message: 'I inválido'})
+const deletePaletaController = async (req, res) => {
+  const parametroId = req.params.id;
+  if(!mongoose.Types.ObjectId.isValid(parametroId)){
+    return res.status(400).send({ message: 'Id inválido!'});
   }
-  const escolhaPAleta = paletaService.deletePaletaService(parametroId);
+  await paletaService.deletePaletaService(parametroId);
 
   if (!escolhaPAleta) {
     return res.status(404).send({ message: 'Paleta não encontrada!'});
