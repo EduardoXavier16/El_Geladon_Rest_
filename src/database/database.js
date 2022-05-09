@@ -1,7 +1,7 @@
 const mongoose = require ('mongoose');
 
 const connectToDatabase = () => {
-    mongoose.connect('mongodb://localhost:27017/paletas-db', {
+    mongoose.connect('mongodb+srv://edw_user:Ea291014@api-gelateria-blue.f0wqs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
       useNewUrlParser: true,
       useUnifiedTopology: true,  
     })

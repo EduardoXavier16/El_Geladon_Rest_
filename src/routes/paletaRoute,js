@@ -1,47 +1,52 @@
-const express = require('express');
-const routes = express.Router();
+const route = require('express').Router();
 const controllerPaletas = require('../controllers/paletaController');
 const { validId, validObjectBody, validObjectBodyLittleCar } = require('../middlewares/paletaMiddleware');
 const controllerLittleCar = require('../controllers/controllerLittleCar.js');
+const swaggerUI = require('swagger-ui-express');
+const swaggerDoc = require('../../swagger.json');
+const { append } = require('express/lib/response');
 
-routes.get('/all-paletas', controllerPaletas.findAllPaletasController);
+route.use('/api-docs', swaggerUI.serve);
+route.get('/api-docs', swaggerUI.setup(swaggerDoc));
 
-routes.get(
+route.get('/all-paletas', controllerPaletas.findAllPaletasController);
+
+route.get(
   '/one-paleta/:id',
   validId,
   controllerPaletas.findByIdPaletaController,
 );
 
-routes.post(
+route.post(
   '/create-paleta',
   validObjectBody,
   controllerPaletas.createPaletaController,
 );
 
-routes.put(
+route.put(
   '/update-paleta/:id',
   validId,
   validObjectBody,
   controllerPaletas.updatePaletaController,
 );
 
-routes.delete(
+route.delete(
   '/delete-paleta/:id',
   validId,
   controllerPaletas.deletePaletaController,
 );
 
-routes.get('/all-littleCar', controllerLittleCar.findAllLittleCarController);
+route.get('/all-littleCar', controllerLittleCar.findAllLittleCarController);
 
-routes.post(
+route.post(
   '/create-littleCar', validObjectBodyLittleCar, 
   controllerLittleCar.createManyItensLittleCarController,
 );
-routes.delete(
+route.delete(
   '/delete-littleCar',
   controllerLittleCar.deleteAllItensLittleCarController,
 );
 
-module.exports = routes;
+module.exports = route;
 
 //Arquivo pronto!!!---->
