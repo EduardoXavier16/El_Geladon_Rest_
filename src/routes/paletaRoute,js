@@ -1,14 +1,47 @@
 const express = require('express');
 const routes = express.Router();
 const controllerPaletas = require('../controllers/paletaController');
-const { validId, validObjectBody } = require('../middlewares/paletaMiddleware');
+const { validId, validObjectBody, validObjectBodyLittleCar } = require('../middlewares/paletaMiddleware');
+const controllerLittleCar = require('../controllers/controllerLittleCar.js');
 
 routes.get('/all-paletas', controllerPaletas.findAllPaletasController);
-routes.get('/one-paleta/:id', validId, controllerPaletas.findByIdPaletaController);
-routes.post('/create-paleta', validObjectBody, controllerPaletas.createPaletaController);
-routes.put('/update-paleta/:id', validId, validObjectBody, controllerPaletas.updatePaletaController);
-routes.delete('/delete-paleta/:id', validId, controllerPaletas.deletePaletaController);
 
-module.exports = route;
+routes.get(
+  '/one-paleta/:id',
+  validId,
+  controllerPaletas.findByIdPaletaController,
+);
+
+routes.post(
+  '/create-paleta',
+  validObjectBody,
+  controllerPaletas.createPaletaController,
+);
+
+routes.put(
+  '/update-paleta/:id',
+  validId,
+  validObjectBody,
+  controllerPaletas.updatePaletaController,
+);
+
+routes.delete(
+  '/delete-paleta/:id',
+  validId,
+  controllerPaletas.deletePaletaController,
+);
+
+routes.get('/all-littleCar', controllerLittleCar.findAllLittleCarController);
+
+routes.post(
+  '/create-littleCar', validObjectBodyLittleCar, 
+  controllerLittleCar.createManyItensLittleCarController,
+);
+routes.delete(
+  '/delete-littleCar',
+  controllerLittleCar.deleteAllItensLittleCarController,
+);
+
+module.exports = routes;
 
 //Arquivo pronto!!!---->
